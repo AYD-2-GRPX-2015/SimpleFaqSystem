@@ -132,5 +132,5 @@ CREATE TABLE sf_faq_contact(
         ON DELETE CASCADE
 )ENGINE=INNODB;
 
-insert into sf_user(user,password,name,mail,creationdate) values ('admin','admin123','Root user administrator',null,now());
+insert into sf_user(user,password,name,mail,creationdate) values ('admin','21232f297a57a5a743894a0e4a801fc3','Root user administrator',null,now());
 insert into sf_faq_topic(name,parent) values('NBJ',null)
