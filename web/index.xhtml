@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jstl/core">
+    <h:head>
+        <title>Simple Faq System for NetBanking Java</title>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <script type="text/javascript" src="resources/js/general.js"></script>
+        <style>
+            #northPanel {z-index:2 !important; }
+            #northPanel div{overflow:visible;}
+        </style>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" showDetail="true"/>
+        <p:layout fullPage="true">
+            <p:layoutUnit style="border: none;"  position="north" id="northPanel" size="125" resizable="false" closable="false" collapsible="false">
+                <table border="0" width="100%" align="center">
+                    <tr>
+                        <td rowspan="2">
+                    <h:graphicImage url="img/faq77x80.png"/>
+                    </td>
+                    <td rowspan="2" valign="bottom">
+                        <table>
+                            <tr>
+                                <td align="center" width="125px">
+                                    <a href="index.xhtml" alt="#{loginBean.lang['homepage']}">
+                                        <h:graphicImage style="border: none" value="img/homepageicon.png" alt="#{loginBean.lang['homepage']}"/>
+                                    </a>
+                                </td>
+                                <td align="center" width="125px">
+                                    <a href="newfaq.xhtml?opt=new" alt="#{loginBean.lang['newfaq']}" style="visibility:#{loginBean.ifLoggedInVisibility}">
+                                        <h:graphicImage style="border: none" value="img/newfaq.png" alt="#{loginBean.lang['newfaq']}"/>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <a href="index.xhtml" alt="#{loginBean.lang['homepage']}">
+                                    <h:outputText value="#{loginBean.lang['homepage']}"/>
+                                    </a>
+                                </td>
+                                <td align="center">
+                                    <a href="newfaq.xhtml?opt=new" alt="#{loginBean.lang['newfaq']}" style="visibility:#{loginBean.ifLoggedInVisibility}">
+                                    <h:outputText value="#{loginBean.lang['newfaq']}"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td colspan="3" align="right" width="130px" valign="bottom">
+                    <h:outputText id="namelabel" value="#{loginBean.loggedUserName}"/>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td align="right" valign="middle">
+                    <ui:include id="includeformlogup" src="pages/logupform.xhtml"/>
+                    </td>
+                    <td align="left" width="60px" valign="middle" height="25px">
+                    <ui:include id="includeformlogin" src="pages/loginform.xhtml"/>
+                    </td>
+                    </tr>
+                </table>
+            </p:layoutUnit>
+            <p:layoutUnit style="border: none"  position="west" maxSize="350" header="#{faqTreeBean.lang['topics']}" collapsible="true" >
+                <ui:include id="includeforfaqmenu" src="pages/faqtreeform.xhtml"/> 
+                </p:layoutUnit>
+                <p:layoutUnit style="border: none"  position="center">
+                    <div id='mainpanel'>
+                        <ui:insert name="maincontent">
+                            <ui:include id="includemain" src="#{mainBean.requestedOption}"/>
+                        </ui:insert>
+                    </div>
+                </p:layoutUnit>
+            </p:layout>
+    </h:body>
+</html>
+

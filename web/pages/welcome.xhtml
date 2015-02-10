@@ -1,0 +1,69 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.org/ui">
+    <h:form>
+        <p:panel>
+            <h:panelGrid columns="2">
+                <h:column>
+                    <h:graphicImage url="img/questionpet.jpg"/>
+                </h:column>
+                <h:column>
+                    <h:outputText style="font-size: 35px" value="Bienvenido!!"/>
+                    <p:separator/>
+                    <h:outputText value="Bienvenido al sistema de preguntas frecuentes de NetBanking Java. Si tienes una respuesta para compartir crea tu usuario, ingresa al sistema y crea una nueva pregunta frecuente con la información que posees. Recuerda validar antes si la pregunta ya existe, y si es así modificala si es necesario."/>    
+                </h:column>
+            </h:panelGrid>
+        </p:panel>
+        <p:fieldset  legend="#{welcomeBean.lang['topranked']}" toggleable="true" toggleSpeed="500" style="margin: 10px;">  
+            <p:dataGrid  var="r" value="#{welcomeBean.topRanked}" columns="3" 
+                        rows="3" paginator="true" paginatorPosition="bottom"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                        rowsPerPageTemplate="9,12,20" id="dataGridFaqListTopRanked" >  
+                <p:panel  style="text-align:center;width: 250px;height: 150px;overflow: hidden;border:none" >  
+                    <h:panelGrid columns="1" style="width:100%" >  
+                        <p:commandLink onclick="setFaqDetail(#{r.faqObject.id})" >
+                            <h:outputText style="font-weight: bold;color: #003399" value="#{r.faqObject.title}" /> 
+                        </p:commandLink>
+                        <p:separator/>
+                        <h:outputText value="#{welcomeBean.getDate(r.faqObject.postdate)}"/>
+                        <h:outputText value="#{r.faqObject.user.name}"/>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="#{welcomeBean.lang['globalrating']}:"/>
+                            <p:rating value="#{r.ranking}" readonly="true"/>
+                        </h:panelGrid>
+                    </h:panelGrid>  
+                </p:panel>
+            </p:dataGrid>
+        </p:fieldset>  
+        <p:fieldset legend="#{welcomeBean.lang['topvisited']}" toggleable="true" toggleSpeed="500">  
+            <p:dataGrid var="faq" value="#{welcomeBean.topVisited}" columns="3" 
+                        rows="3" paginator="true" paginatorPosition="bottom"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  
+                        id="dataGridFaqListTopVisited">  
+                <p:panel  style="text-align:center;width: 250px;height: 150px;overflow: hidden;border:none" >  
+                    <h:panelGrid columns="1" style="width:100%" >  
+                        <p:commandLink onclick="setFaqDetail(#{faq.id})" >
+                            <h:outputText style="font-weight: bold;color: #003399" value="#{faq.title}" /> 
+                        </p:commandLink>
+                        <p:separator/>
+                        <h:outputText value="#{welcomeBean.getDate(faq.postdate)}"/>
+                        <h:outputText value="#{faq.user.name}"/>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="#{welcomeBean.lang['visits']}:" />
+                            <h:outputText  value="#{faq.visits}"/>
+                        </h:panelGrid>
+                    </h:panelGrid>  
+                </p:panel>
+            </p:dataGrid>
+        </p:fieldset>  
+        <!--p:fieldset legend="#{welcomeBean.lang['lastmodified']}" toggleable="true" toggleSpeed="500">  
+            <h:panelGrid columns="2" cellpadding="10">  
+                <p:graphicImage value="/images/godfather/godfather2.jpg" />  
+                <h:outputText value="Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather, parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream.  
+                              In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy,  
+                              killing the local Black Hand Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows."/>;  
+            </h:panelGrid>  
+        </p:fieldset-->
+    </h:form>
+</div>

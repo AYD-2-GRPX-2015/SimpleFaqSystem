@@ -1,0 +1,25 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.org/ui">
+    <h:form id="formLogin">
+        <p:commandLink id="cmdLogin" ajax="true"  value="#{loginBean.lang['login']}" style="visibility: #{loginBean.loginButtonVisibility}" /> 
+        <p:commandLink id="cmdLogout" ajax="false" actionListener="#{loginBean.logout}"  value="#{loginBean.lang['logout']}" style="visibility: #{loginBean.logoutButtonVisibility}" update="growl"/> 
+        <p:overlayPanel parent=""  id="dialogLogin"  widgetVar="dlgLogin" for="cmdLogin" hideEffect="fade" dynamic="true">  
+            <h:panelGrid columns="2" cellpadding="6">
+                <f:facet name="header">
+                    <h:outputText value="#{loginBean.lang['loginform']}"/>
+                </f:facet>
+                <h:outputLabel for="username" value="#{loginBean.lang['username']}"/>  
+                <p:inputText value="#{loginBean.username}"   id="username" required="true" label="username" />  
+                <h:outputLabel for="password" value="#{loginBean.lang['password']}" />  
+                <h:inputSecret value="#{loginBean.password}"   
+                               id="password" required="true" label="password" />  
+                <f:facet name="footer">  
+                    <p:commandButton ajax="false" process="formLogin" id="loginButton" value="#{loginBean.lang['login']}" update="growl"   
+                                     actionListener="#{loginBean.login}"/>  
+                </f:facet>  
+            </h:panelGrid> 
+        </p:overlayPanel>  
+    </h:form>
+</div>

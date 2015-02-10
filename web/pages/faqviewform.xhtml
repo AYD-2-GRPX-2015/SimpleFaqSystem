@@ -1,0 +1,111 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui" id="viewfaqform">
+    <h:inputHidden id="faq" value="#{faqViewBean.currentFaqId}"/>
+    <p:growl id="messagesfvf" showDetail="true"/>  
+    <p:panel>
+        <f:facet name="header" >
+            <h:outputText style="font-weight: bold" value="#{faqViewBean.currentFaq.title}"/>
+            <h:outputText value=" - "/>
+            <h:outputText value="#{faqViewBean.postDate}"/>
+        </f:facet>
+        <h:panelGrid columns="2" cellpadding="10" >  
+            <p:column>
+                <p:graphicImage value="/img/questionpet.jpg" />  
+            </p:column>
+            <p:column>
+                <h:outputText styleClass="faqtitle" value="#{faqViewBean.currentFaq.title}" />
+                <br/>
+                <h:outputText value="#{faqViewBean.currentFaq.shortDescription}" /> 
+                <h:outputText style="color: #AFAFAF" value=" - Autor: #{faqViewBean.currentFaq.user.name}"/>
+                <p:separator/>
+                <h:panelGrid columns="3" id="_rbdiv">
+                    <h:outputText value="#{faqViewBean.lang['globalrating']}:" />
+                    <p:rating id="globalscore" value="#{faqViewBean.globalRating}" readonly="true"/>
+                    <h:outputText value="de #{faqViewBean.raitingCount} #{faqViewBean.lang['raiting']}s"/>
+                    <h:outputText value="#{faqViewBean.lang['myrating']}:" style="visibility: #{faqViewBean.myRaitingVisibility}" />
+                    <p:rating id="score"  value="#{faqViewBean.myraiting}" readonly="#{faqViewBean.raitingDisabled}" style="visibility: #{faqViewBean.myRaitingVisibility}">
+                        <p:ajax  oncomplete="setFaqDetail(#{faqViewBean.currentFaqId})" event="rate" listener="#{faqViewBean.onrate}"  update="messagesfvf"/>
+                    </p:rating>
+                    <p:commandLink oncomplete="setFaqDetail(#{faqViewBean.currentFaqId})" 
+                                   id="cmdRemoveRaiting" 
+                                   actionListener="#{faqViewBean.removeRaiting}" 
+                                   style="visibility: #{faqViewBean.removeScoreVisibility}">
+                        <h:outputText value="#{faqViewBean.lang['removerating']}"/>
+                    </p:commandLink>
+                </h:panelGrid>
+                <h:outputLink style="visibility: #{faqViewBean.loggedInVisibility}" value="newfaq.xhtml?faqid=#{faqViewBean.currentFaq.id}">
+                    <h:outputText value="#{faqViewBean.lang['editfaq']}"/>
+                </h:outputLink>
+            </p:column>
+        </h:panelGrid>  
+        <p:accordionPanel id="panelFaqView">    
+            <p:tab title="#{faqViewBean.lang['longdescription']}">  
+                <h:outputText escape="false"  value="#{faqViewBean.currentFaq.longDescription}"/>
+            </p:tab>  
+            <p:tab title="#{faqViewBean.lang['contacts']}"> 
+                <p:panel style="border: none;margin: 0px;padding: 0px">
+                    <p:dataTable var="faqContact" value="#{faqViewBean.currentFaq.faqContactList}" >  
+                        <p:column headerText="#{faqViewBean.lang['contactname']}">  
+                            <h:outputText value="#{faqContact.name}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['contactarea']}">  
+                            <h:outputText value="#{faqContact.area}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['contactmail']} 1">  
+                            <h:outputText value="#{faqContact.email1}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['contactmail']} 2">  
+                            <h:outputText value="#{faqContact.email2}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['contactphone']} 1">  
+                            <h:outputText value="#{faqContact.phone1}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['contactphone']} 2">  
+                            <h:outputText value="#{faqContact.phone2}" />  
+                        </p:column>  
+                    </p:dataTable> 
+                </p:panel>
+            </p:tab>
+            <p:tab title="#{faqViewBean.lang['attachments']}">  
+                <p:panel style="border: none;margin: 0px;padding: 0px">
+                    <p:dataTable var="file" value="#{faqViewBean.currentFaq.uploadedFileList}" >  
+                        <p:column headerText="#{faqViewBean.lang['name']}"> 
+                            <a  href="#{file.path}">#{file.name}</a>
+                        </p:column>  
+                        <p:column headerText="#{faqViewBean.lang['filesize']}">  
+                            <h:outputText value="#{file.filesize}" />  
+                        </p:column>  
+                        
+                        <p:column headerText="#{faqViewBean.lang['date']}">  
+                            <h:outputText value="#{faqViewBean.getDate(file.upladDate)}" />  
+                        </p:column>  
+                    </p:dataTable> 
+                </p:panel> 
+            </p:tab>
+            <p:tab title="#{faqViewBean.lang['faqhistory']}">  
+                <p:panel style="border: none;margin: 0px;padding: 0px">
+                    <p:dataTable var="his" value="#{faqViewBean.currentFaq.faqHistoryList}" >  
+                        <p:column headerText="#{faqViewBean.lang['date']}">  
+                            <h:outputText value="#{faqViewBean.getDate(his.date)}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['description']}">  
+                            <h:outputText value="#{his.comment}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqViewBean.lang['username']}">  
+                            <h:outputText value="#{his.user.name}" />  
+                        </p:column>  
+                    </p:dataTable> 
+                </p:panel> 
+            </p:tab>  
+        </p:accordionPanel>
+    </p:panel>
+</h:form>

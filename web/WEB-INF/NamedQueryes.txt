@@ -1,0 +1,2 @@
+Faq
+@NamedQuery(name = "Faq.find", query = "SELECT f FROM Faq f WHERE title like :title or short_description like :short_description or long_description like :long_description")

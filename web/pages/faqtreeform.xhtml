@@ -1,0 +1,25 @@
+<p:panel 
+         xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:form id="formfindtopic"  onsubmit="setSearchResult(); return false;">
+        <h:panelGrid columns="3">
+            <p:inputText id="textkey"/>
+            <p:commandLink onclick="setSearchResult()">  
+                <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;"  value=""/>   
+            </p:commandLink>
+        </h:panelGrid>
+        <p:watermark for="textkey" value="#{faqTreeBean.lang['faqsearch']}"/>
+    </h:form>
+    <div style="overflow-y: hidden;overflow-x: auto;min-height: 560px">
+        <h:form id="formTreeTopic" >
+            <p:tree dynamic="true" selectionMode="single" selection="#{faqTreeBean.selectedNode}" animate="true" value="#{faqTreeBean.root}" var="node" id="tree" style="border: none">  
+                <p:treeNode id="treeNode" >  
+                    <h:outputText value="#{node}" id="lblNode"/>  
+                </p:treeNode>  
+                <p:ajax global="true"  oncomplete="setFaqListEvent(xhr, status, args)"  event="select" listener="#{faqTreeBean.onNodeSelect}"/>
+            </p:tree>
+        </h:form>
+    </div>
+</p:panel>

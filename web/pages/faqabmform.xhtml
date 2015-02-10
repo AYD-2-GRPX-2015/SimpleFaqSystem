@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jstl/core">    
+    <p:panel header="#{faqAbmBean.formTitle}">
+        <h:form id="formFaqAbc" enctype="multipart/form-data">
+            <p:growl id="msjabmform" showDetail="true"/>
+            <h:inputHidden id="topicid" value="#{faqAbmBean.topicid}"/>
+            <h:inputHidden id="faqid" value="#{faqAbmBean.faqid}"/>
+            <h:inputHidden id="serializedUploadedFiles" value="#{faqAbmBean.serializedUploadedFiles}"/>
+            <h:inputHidden id="serializedContacts" value="#{faqAbmBean.serializedContacts}"/>
+            <h:panelGrid columns="1" >
+                <p:outputLabel id="titleLabel"  for="title" value="Titulo"/>
+                <p:inputText id="title" size="100" label="titleLabel" value="#{faqAbmBean.title}" required="true"/>
+
+                <p:outputLabel id="shortDescLabel"  for="shortDesc" value="#{faqAbmBean.lang['shortdescription']}"/>
+                <p:inputTextarea id="shortDesc" cols="100" label="shortDescLabel" value="#{faqAbmBean.shortDescription}" required="true"/>
+                <p:outputLabel id="longDescLabel"  for="longDesc" value="#{faqAbmBean.lang['longdescription']}"/>
+                <p:editor id="longDesc" value="#{faqAbmBean.longDescription}" width="750" height="433" required="true"/>
+                <h:outputText id="topicLabel"  value="#{faqAbmBean.lang['topico']} *"/> 
+                <p:panel>
+                    <h:panelGrid columns="3">
+                        <p:inputText id="topicText" value="#{faqAbmBean.topicText}" required="true"/>
+                        <p:commandLink id="cmdTopicSelect" ajax="true"  value="#{faqAbmBean.lang['selecttopic']}" />
+                    </h:panelGrid>
+                </p:panel>
+                <h:outputText value="#{faqAbmBean.lang['contacts']}"/>
+                <p:panel>
+                    <p:commandLink  id="cmdAddContact" ajax="true"  value="#{faqAbmBean.lang['addcontact']} [+]" />
+                    <p:dataTable var="faqContact" value="#{faqAbmBean.faqContacts}" >  
+                        <p:column headerText="#{faqAbmBean.lang['contactname']}">  
+                            <h:outputText value="#{faqContact.name}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['contactarea']}">  
+                            <h:outputText value="#{faqContact.area}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['contactmail']}">  
+                            <h:outputText value="#{faqContact.email1}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['contactmail']}">  
+                            <h:outputText value="#{faqContact.email2}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['contactphone']}">  
+                            <h:outputText value="#{faqContact.phone1}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['contactphone']}">  
+                            <h:outputText value="#{faqContact.phone2}" />  
+                        </p:column>  
+                        <p:column headerText="#{faqAbmBean.lang['delete']}">  
+                            <h:commandLink value="Delete" id="deleteContactCmd" action="#{faqAbmBean.deleteAction(faqContact)}" />
+                        </p:column>  
+                    </p:dataTable> 
+                </p:panel>
+                <h:outputText value="#{faqAbmBean.lang['uploadfiles']}"/>
+                <p:panel>
+                    <h:panelGrid columns="2">       
+                        <h:inputFile id="fileUploadInput" value="#{faqAbmBean.file}"    />
+                        <p:commandButton type="submit" value="#{faqAbmBean.lang['uploadfile']}" ajax="false" actionListener="#{faqAbmBean.upload}"/>
+                    </h:panelGrid>
+                    <p:dataTable var="file" value="#{faqAbmBean.uploadedFiles}" >  
+                        <p:column headerText="#{faqAbmBean.lang['name']}">  
+                            <h:outputText value="#{file.name}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['filepath']}">  
+                            <h:outputText value="#{file.path}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['filesize']}">  
+                            <h:outputText value="#{file.filesize}" />  
+                        </p:column>  
+
+                        <p:column headerText="#{faqAbmBean.lang['date']}">  
+                            <h:outputText value="#{file.upladDate}" />  
+                        </p:column>  
+                    </p:dataTable> 
+                </p:panel>
+                <h:panelGrid columns="2">
+                    <p:commandButton ajax="false" id="submitForm"  value="#{faqAbmBean.lang['accept']}" actionListener="#{faqAbmBean.actionListener}" update="msjabmform"/>
+                <p:commandButton ajax="false" id="deleteSubmit"  value="#{faqAbmBean.lang['delete']}" actionListener="#{faqAbmBean.deleteFaq}" update="msjabmform" style="visibility: #{faqAbmBean.deleteButtonVisibility}"/>
+                </h:panelGrid>
+            </h:panelGrid>
+            <p:overlayPanel id="dialogTopicSelect" widgetVar="dlgTopicSelect" for="cmdTopicSelect" hideEffect="fade">  
+                <p:tree  selectionMode="single" selection="#{faqTreeBean.selectedNode}" value="#{faqTreeBean.root}" var="nodeSelector" id="treeSelector">  
+                    <p:treeNode id="treeNodeSelector">  
+                        <h:outputText value="#{nodeSelector}" id="lblNodeSelector"/>
+                    </p:treeNode>
+                    <p:ajax id="selectTopicAjax"  oncomplete="setTopicToFaq(xhr, status, args)"  event="select" listener="#{faqTreeBean.onNodeSelect}"/>
+                </p:tree>
+            </p:overlayPanel>
+            <p:overlayPanel id="dialogAddContact" widgetVar="dlgAddContact" for="cmdAddContact" hideEffect="fade">
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{faqAbmBean.lang['contactname']}"/>
+                    <p:inputText  id="contactName" value="#{faqAbmBean.contactName}"/>
+
+                    <h:outputText value="#{faqAbmBean.lang['contactphone']} 1"/>
+                    <p:inputText  id="contactPhone1" value="#{faqAbmBean.contactPhone1}"/>
+
+                    <h:outputText value="#{faqAbmBean.lang['contactphone']} 2"/>
+                    <p:inputText id="contactPhone2" value="#{faqAbmBean.contactPhone2}"/>
+
+                    <h:outputText value="#{faqAbmBean.lang['contactmail']} 1"/>
+                    <p:inputText id="contactEmail1" value="#{faqAbmBean.contactEmail1}"/>
+
+                    <h:outputText value="#{faqAbmBean.lang['contactmail']} 2"/>
+                    <p:inputText id="contactEmail2" value="#{faqAbmBean.contactEmail2}"/>
+
+                    <h:outputText value="#{faqAbmBean.lang['contactarea']}"/>
+                    <p:inputText id="contactArea" value="#{faqAbmBean.contactArea}"/>
+
+                    <p:commandButton  ajax="false" id="addContactCmd"  actionListener="#{faqAbmBean.addFaqContact}" value="Agregar"/>
+                </h:panelGrid>
+            </p:overlayPanel>
+        </h:form>
+    </p:panel>
+</div>

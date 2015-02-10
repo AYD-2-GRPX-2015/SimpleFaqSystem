@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="SimpleFaqSystemPU" transaction-type="RESOURCE_LOCAL">
+    <class>sfs.persistence.objects.Comment</class>
+    <class>sfs.persistence.objects.Faq</class>
+    <class>sfs.persistence.objects.FaqHistory</class>
+    <class>sfs.persistence.objects.FaqTopic</class>
+    <class>sfs.persistence.objects.UploadedFile</class>
+    <class>sfs.persistence.objects.User</class>
+    <class>sfs.persistence.objects.UserPermission</class>
+    <class>sfs.persistence.objects.FaqScore</class>
+    <class>sfs.persistence.objects.FaqContact</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.logging.level" value="WARNING"/>
+    </properties>
+  </persistence-unit>
+</persistence>

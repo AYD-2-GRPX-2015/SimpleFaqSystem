@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <script type="text/javascript" src="resources/js/general.js"></script>
+        <style>
+            #northPanel {z-index:2 !important; }
+            #northPanel div{overflow:visible;}
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="formUf">
+            <h:inputHidden id="serializedContacts" value="#{contactAbmBean.serializedContacts}"/>
+            <h:panelGrid columns="2">
+                <h:outputText value="#{contactAbmBean.lang['contactname']}"/>
+                <p:inputText  id="contactName" value="#{contactAbmBean.contactName}"/>
+
+                <h:outputText value="#{contactAbmBean.lang['contactphone']} 1"/>
+                <p:inputText  id="contactPhone1" value="#{contactAbmBean.contactPhone1}"/>
+
+                <h:outputText value="#{contactAbmBean.lang['contactphone']} 2"/>
+                <p:inputText id="contactPhone2" value="#{contactAbmBean.contactPhone2}"/>
+
+                <h:outputText value="#{contactAbmBean.lang['contactmail']} 1"/>
+                <p:inputText id="contactEmail1" value="#{contactAbmBean.contactEmail1}"/>
+
+                <h:outputText value="#{contactAbmBean.lang['contactmail']} 2"/>
+                <p:inputText id="contactEmail2" value="#{contactAbmBean.contactEmail2}"/>
+
+                <h:outputText value="#{contactAbmBean.lang['contactarea']}"/>
+                <p:inputText id="contactArea" value="#{contactAbmBean.contactArea}"/>
+
+                <p:commandButton  ajax="false" id="addContactCmd"  actionListener="#{contactAbmBean.addFaqContact}" value="Agregar"/>
+            </h:panelGrid>
+            
+            <p:dataTable var="faqContact" value="#{contactAbmBean.faqContacts}" >  
+                <p:column headerText="#{contactAbmBean.lang['contactname']}">  
+                    <h:outputText value="#{faqContact.name}" />  
+                </p:column>  
+
+                <p:column headerText="#{contactAbmBean.lang['contactarea']}">  
+                    <h:outputText value="#{faqContact.area}" />  
+                </p:column>  
+
+                <p:column headerText="#{contactAbmBean.lang['contactmail']}">  
+                    <h:outputText value="#{faqContact.email1}" />  
+                </p:column>  
+
+                <p:column headerText="#{contactAbmBean.lang['contactmail']}">  
+                    <h:outputText value="#{faqContact.email2}" />  
+                </p:column>  
+
+                <p:column headerText="#{contactAbmBean.lang['contactphone']}">  
+                    <h:outputText value="#{faqContact.phone1}" />  
+                </p:column>  
+
+                <p:column headerText="#{contactAbmBean.lang['contactphone']}">  
+                    <h:outputText value="#{faqContact.phone1}" />  
+                </p:column>  
+                <p:column headerText="#{contactAbmBean.lang['delete']}">  
+                    <h:commandLink value="Delete" action="#{contactAbmBean.deleteAction(faqContact)}" />
+                    
+                </p:column>  
+            </p:dataTable> 
+        </h:form>
+    </h:body>
+</html>
+

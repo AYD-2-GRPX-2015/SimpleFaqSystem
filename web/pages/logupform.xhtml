@@ -1,0 +1,43 @@
+<div    xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" style="visibility: #{loginBean.loginButtonVisibility}" >
+    <h:form id="logup_form" >
+        <p:commandLink styleClass="smallButton" id="cmdLogup" ajax="true"  value="#{logupBean.lang['logup']}" /> 
+        <p:overlayPanel id="dialogLogup" widgetVar="dlgLogup" for="cmdLogup" hideEffect="fade" dynamic="true">  
+            <h:panelGrid columns="2" cellpadding="6">
+                <f:facet name="header">
+                    <h:outputText value="#{logupBean.lang['logup']}"/>
+                </f:facet>
+                <h:outputLabel for="luUsername" value="#{logupBean.lang['username']}"/>  
+                <p:inputText   id="luUsername" label="luUsername" value="#{logupBean.luUsername}" required="true"  />  
+                
+                <h:outputLabel for="luPassword" value="#{logupBean.lang['password']}" />  
+                <h:inputSecret id="luPassword" label="luPassword"  required="true" value="#{logupBean.luPassword}" />  
+                
+                <h:outputLabel for="luPasswordconfirm" value="#{logupBean.lang['passwordconfirm']}" />  
+                <h:inputSecret id="luPasswordconfirm" label="luPasswordconfirm" value="#{logupBean.luPasswordconfirm}"  required="true" />  
+                
+                <h:outputLabel for="luName" value="#{logupBean.lang['name']}"/>  
+                <p:inputText id="luName" label="luName" required="true" value="#{logupBean.luName}" />  
+                
+                <h:outputLabel for="luEmail" value="#{logupBean.lang['email']}"/>  
+                <p:inputText id="luEmail" required="true" label="luEmail" value="#{logupBean.luEmail}" validatorMessage="Invalid email format">
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                <f:facet name="footer">  
+                    <p:commandButton ajax="false" id="logupButton" process="@this" value="#{logupBean.lang['logup']}" update="growl"   
+                                     actionListener="#{logupBean.logup}"   
+                                     oncomplete="handleLogupRequest(xhr, status, args)"/>  
+                </f:facet>  
+                <h:message for="logupButton"/>
+            </h:panelGrid>  
+        </p:overlayPanel>  
+        </h:form>
+    
+    <script type="text/javascript">
+        function handleLogupRequest(xhr, status, args) {
+            
+        }
+    </script> 
+</div>

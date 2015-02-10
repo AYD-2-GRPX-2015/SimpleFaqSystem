@@ -1,0 +1,26 @@
+<h:form id="formListFaq" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <p:dataGrid var="faq" value="#{faqListBean.data}" columns="3" 
+                rows="9" paginator="true"   
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="9,12,21" id="dataGridFaqList">  
+        <p:panel  style="text-align:center;width: 250px;height: 170px;overflow: hidden" >  
+            <h:panelGrid columns="1" style="width:100%" >  
+                <h:outputLink value="viewfaq.xhtml">
+                    <h:outputText value="#{faq.title}"/>
+                    <f:param name="faq" value="#{faq.id}"/>
+                    <f:param name="topicid" value="#{faq.topic.id}"/>
+                </h:outputLink>
+                <h:outputText value="#{welcomeBean.getDate(faq.postdate)}"/>
+                <h:outputText value="#{faq.user.name}"/>
+                <p:separator/>
+                <h:outputText value="#{faq.shortDescription}" />
+            </h:panelGrid>  
+        </p:panel>
+    </p:dataGrid>
+    <input type="hidden" name="topic" value="#{faqListBean.topic}" />
+    <input type="hidden" name="textkey" value="#{faqListBean.textkey}" />
+</h:form>
