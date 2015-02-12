@@ -5,7 +5,7 @@
  */
 
 package sfs;
-fsdafdsafdsas
+
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
